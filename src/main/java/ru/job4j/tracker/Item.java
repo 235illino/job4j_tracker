@@ -1,8 +1,7 @@
 package ru.job4j.tracker;
 
-import java.util.Objects;
-
 public class Item {
+
     private String id;
     private String name;
 
@@ -25,4 +24,5 @@ public class Item {
     public void setName(String name) {
         this.name = name;
     }
+
 }
