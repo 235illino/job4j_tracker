@@ -56,7 +56,7 @@ public class StartUI {
         System.out.println("=== Find item by name====");
         String name = input.askStr("Enter name for searching: ");
         Item[] itemFindName = tracker.findByName(name);
-        boolean rsl = Objects.isNull(itemFindName);
+        boolean rsl = itemFindName.length == 0;
         if (rsl) {
             System.out.println("Found nothing");
         } else {
