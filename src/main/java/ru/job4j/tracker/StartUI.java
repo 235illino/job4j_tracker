@@ -20,10 +20,10 @@ public class StartUI {
 
     public static void replaceItem(Input input, Tracker tracker) {
         System.out.println("=== Edit item ====");
-        String name = input.askStr("Enter name: ");
         String id = input.askStr("Enter id for edit: ");
+        String name = input.askStr("Enter name: ");
         Item newItem = new Item(name);
-        if (tracker.replace(id, newItem)) {
+        if (!tracker.replace(id, newItem)) {
             System.out.println("Success action");
         } else {
             System.out.println("Error");
@@ -33,7 +33,7 @@ public class StartUI {
     public static void deleteItem(Input input, Tracker tracker) {
         System.out.println("=== Delete item ====");
         String id = input.askStr("Enter id for delete: ");
-        if (tracker.delete(id)) {
+        if (!tracker.delete(id)) {
             System.out.println("Success action");
         } else {
             System.out.println("Error");
