@@ -17,4 +17,15 @@ public class ValidateInputTest {
         int selected = input.askInt("Enter menu:");
         assertThat(selected, is(1));
     }
+
+    @Test
+    public void whenInvalidInput2() {
+        Output out = new StubOutput();
+        Input in = new StubInput(
+                new String[] {"one", "1"}
+        );
+        ValidateInput input = new ValidateInput(out, in);
+        input.askInt("Enter menu:");
+        assertThat(out.toString(), is("Please enter validate data again.\n"));
+    }
 }
