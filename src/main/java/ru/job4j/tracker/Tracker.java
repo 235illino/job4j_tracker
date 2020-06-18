@@ -77,6 +77,7 @@ public class Tracker {
         if (!rp) {
             item.setId(id);
             items.add(index, item);
+            items.remove(index + 1);
         }
         return rp;
     }
