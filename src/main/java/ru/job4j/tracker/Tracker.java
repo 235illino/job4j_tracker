@@ -1,6 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Tracker {
@@ -8,22 +10,22 @@ public class Tracker {
     /**
      * Массив для хранения заявок.
      */
-    private final Item[] items = new Item[100];
+    private final List<Item> items = new ArrayList<>();
 
     /**
      * Указатель ячейки для новой заявки.
      */
-    private int position = 0;
+//    private int position = 0;
 
     /**
      * Метод добавления заявки в хранилище
      *
      * @param item новая заявка
      */
-    public Item add(Item item) {
+    public void add(Item item) {
         item.setId(generateId());
-        items[position++] = item;
-        return item;
+        items.add(item);
+//        return item;
     }
 
     /**
@@ -37,62 +39,53 @@ public class Tracker {
         return String.valueOf(rm.nextLong() + System.currentTimeMillis());
     }
 
-    public Item[] findAll() {
-        return Arrays.copyOf(this.items, position);
+    public List<Item> findAll() {
+        return this.items;
     }
 
-    public Item[] findByName(String key) {
-        Item[] itemsFind = new Item[position];
+    public List<Item> findByName(String key) {
+        List<Item> itemsFind = new ArrayList<>();
         int size = 0;
-        for (int index = 0; index < position; index++) {
-            Item item = this.items[index];
-            if (key.equals(this.items[index].getName())) {
-                itemsFind[size] = item;
-                size++;
+        for (Item item : items) {
+            if (key.equals(item.getName())) {
+                itemsFind.add(item);
             }
         }
-        return Arrays.copyOf(itemsFind, size);
+        return itemsFind;
     }
 
     public Item findById(String id) {
         // Находим индекс
         int index = indexOf(id);
         // Если индекс найден возвращаем item, иначе null
-        return index != -1 ? items[index] : null;
+        return index != -1 ? items.get(index) : null;
     }
 
     private int indexOf(String id) {
         int rsl = -1;
-        for (int index = 0; index < position; index++) {
-            if (items[index].getId().equals(id)) {
-                rsl = index;
-                break;
+        for (Item item : items) {
+            if (id.equals(item.getId())) {
+                rsl = items.indexOf(item);
             }
         }
         return rsl;
     }
 
     public boolean replace(String id, Item item) {
-        boolean rp = indexOf(id) == -1;
-        if (rp) {
-//            System.out.println("this item doesn't exist");
-        } else {
+        int index = indexOf(id);
+        boolean rp = index == -1;
+        if (!rp) {
             item.setId(id);
-            items[indexOf(id)] = item;
+            items.add(index, item);
         }
         return rp;
     }
 
     public boolean delete(String id) {
         int index = indexOf(id);
-        boolean rp = indexOf(id) == -1;
-        if (rp) {
-//            System.out.println("this item doesn't exist");
-        } else {
-            int startPos = index + 1;
-            System.arraycopy(items, startPos, items, index, position - startPos);
-            items[position - 1] = null;
-            position--;
+        boolean rp = index == -1;
+        if (!rp) {
+            items.remove(index);
         }
         return rp;
     }
