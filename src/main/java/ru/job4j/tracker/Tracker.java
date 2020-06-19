@@ -63,10 +63,13 @@ public class Tracker {
 
     private int indexOf(String id) {
         int rsl = -1;
+        int k = 0;
         for (Item item : items) {
             if (id.equals(item.getId())) {
-                rsl = items.indexOf(item);
+                rsl = k;
+                break;
             }
+            k++;
         }
         return rsl;
     }
@@ -76,8 +79,9 @@ public class Tracker {
         boolean rp = index == -1;
         if (!rp) {
             item.setId(id);
-            items.add(index, item);
-            items.remove(index + 1);
+            items.set(index, item);
+//            items.add(index, item);
+//            items.remove(index + 1);
         }
         return rp;
     }
