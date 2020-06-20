@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -12,15 +13,20 @@ import static org.junit.Assert.*;
 public class SortByNameUpTest {
     @Test
     public void nameSort() {
-        List<Item> items = Arrays.asList(
-                new Item("Drew"),
-                new Item("Crew"),
-                new Item("Brew")
-        );
-        Collections.sort(items);
-        String exp = "Brew";
-        String rsl = items.get(0).getName();
-        assertThat(exp, is(rsl));
+        Item item1 = new Item("Crew");
+        Item item2 = new Item("Drew");
+        Item item3 = new Item("Brew");
+
+        List<Item> rsl = new ArrayList<>();
+        rsl.add(item3);
+        rsl.add(item1);
+        rsl.add(item2);
+        Collections.sort(rsl, new SortByNameUp());
+        List<Item> exp = new ArrayList<>();
+        exp.add(item3);
+        exp.add(item1);
+        exp.add(item2);
+        assertThat(rsl, is(exp));
     }
 
 }
