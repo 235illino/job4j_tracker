@@ -25,12 +25,13 @@ public class BankService {
         return userFind;
     }
 
-    public Account findByRequisite(String passport, String requisite) {
+    public Account findByRequisite(String passport, String requisite) throws NullPointerException{
         Account accountFind = null;
         List<Account> accounts = users.get(findByPassport(passport));
         for (Account account : accounts) {
             if (account.getRequisite().equals(requisite)) {
                 accountFind = account;
+                break;
             }
         }
         return accountFind;
@@ -38,10 +39,14 @@ public class BankService {
 
     public boolean transferMoney(String srcPassport, String srcRequisite,
                                  String destPassport, String dеstRequisite, double amount) {
-        boolean rsl = true;
-        if (Objects.isNull(findByRequisite(srcPassport, srcRequisite)) || Objects.isNull(findByRequisite(destPassport, dеstRequisite))
-                || findByRequisite(srcPassport, srcRequisite).getBalance() < amount) {
-            rsl = false;
+        Account accountSrc = findByRequisite(srcPassport, srcRequisite);
+        Account accountDest = findByRequisite(destPassport, dеstRequisite);
+        boolean rsl = false;
+        if (!(Objects.isNull(accountSrc) || Objects.isNull(accountDest)
+                || accountSrc.getBalance() < amount)) {
+            accountSrc.setBalance(accountSrc.getBalance() - amount);
+            accountDest.setBalance(accountDest.getBalance() + amount);
+            rsl = true;
         }
         return rsl;
     }
