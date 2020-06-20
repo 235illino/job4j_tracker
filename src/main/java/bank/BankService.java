@@ -12,7 +12,7 @@ public class BankService {
     public void addAccount(String passport, Account account) {
         List<Account> accounts = new ArrayList<>();
         User user = findByPassport(passport);
-        if (Objects.isNull(user)) {
+        if (!Objects.isNull(user)) {
             accounts = users.get(user);
         }
         if (!accounts.contains(account)) {
@@ -35,7 +35,7 @@ public class BankService {
         Account accountFind = null;
         List<Account> accounts = new ArrayList<>();
         User user = findByPassport(passport);
-        if (Objects.isNull(user)) {
+        if (!Objects.isNull(user)) {
             accounts = users.get(user);
         }
         for (Account account : accounts) {
