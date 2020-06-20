@@ -10,8 +10,14 @@ public class BankService {
     }
 
     public void addAccount(String passport, Account account) {
-        List<Account> accounts = users.get(findByPassport(passport));
-        accounts.add(account);
+        List<Account> accounts = new ArrayList<>();
+        User user = findByPassport(passport);
+        if (Objects.isNull(user)) {
+            accounts = users.get(user);
+        }
+        if (!accounts.contains(account)) {
+            accounts.add(account);
+        }
     }
 
     public User findByPassport(String passport) {
@@ -25,9 +31,13 @@ public class BankService {
         return userFind;
     }
 
-    public Account findByRequisite(String passport, String requisite) throws NullPointerException{
+    public Account findByRequisite(String passport, String requisite) throws NullPointerException {
         Account accountFind = null;
-        List<Account> accounts = users.get(findByPassport(passport));
+        List<Account> accounts = new ArrayList<>();
+        User user = findByPassport(passport);
+        if (Objects.isNull(user)) {
+            accounts = users.get(user);
+        }
         for (Account account : accounts) {
             if (account.getRequisite().equals(requisite)) {
                 accountFind = account;
