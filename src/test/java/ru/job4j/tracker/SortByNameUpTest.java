@@ -9,7 +9,7 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-public class ItemTest {
+public class SortByNameUpTest {
     @Test
     public void nameSort() {
         List<Item> items = Arrays.asList(
@@ -19,18 +19,6 @@ public class ItemTest {
         );
         Collections.sort(items);
         String exp = "Brew";
-        String rsl = items.get(0).getName();
-        assertThat(exp, is(rsl));
-    }
-    @Test
-    public void nameSortReverse() {
-        List<Item> items = Arrays.asList(
-                new Item("Crew"),
-                new Item("Drew"),
-                new Item("Brew")
-        );
-        Item.sortReverse(items);
-        String exp = "Drew";
         String rsl = items.get(0).getName();
         assertThat(exp, is(rsl));
     }

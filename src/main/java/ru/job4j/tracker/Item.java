@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Item implements Comparable<Item>, Comparator<Item> {
+public class Item implements Comparable<Item> {
 
     private String id;
     private String name;
@@ -30,16 +30,8 @@ public class Item implements Comparable<Item>, Comparator<Item> {
     }
 
     @Override
-    public int compare(Item item1, Item item2) {
-        return item1.getName().compareTo(item2.getName());
-    }
-
-    @Override
     public int compareTo(Item item) {
         return name.compareTo(item.getName());
     }
 
-    public static void sortReverse(List<Item> items) {
-        Collections.sort(items, Collections.reverseOrder());
-    }
 }
