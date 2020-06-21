@@ -20,7 +20,7 @@ public class JobDescByPriorityUpTest {
         rsl.add(job1);
         rsl.add(job2);
         rsl.add(job3);
-        Collections.sort(rsl, new JobDescByPriorityUp());
+        Collections.sort(rsl, new JobAscByPriority());
         List<Job> exp = new ArrayList<>();
         exp.add(job1);
         exp.add(job3);

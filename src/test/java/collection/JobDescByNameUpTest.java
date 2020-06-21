@@ -20,7 +20,7 @@ public class JobDescByNameUpTest {
         rsl.add(job1);
         rsl.add(job2);
         rsl.add(job3);
-        Collections.sort(rsl, new JobDescByNameUp());
+        Collections.sort(rsl, new JobAscByName());
         List<Job> exp = new ArrayList<>();
         exp.add(job3);
         exp.add(job1);
