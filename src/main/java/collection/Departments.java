@@ -19,9 +19,7 @@ public class Departments {
                 }
             }
         }
-        ArrayList<String> depL = new ArrayList<>(tmp);
-        depL.sort(Comparator.naturalOrder());
-        return depL;
+        return new ArrayList<>(tmp);
     }
 
     public static void sortAsc(List<String> orgs) {
