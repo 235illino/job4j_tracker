@@ -25,8 +25,8 @@ public class ScopeInsideTest {
 
     @Test
     public void whenShowcaseFunctionThenShowcaseResults() {
-        List<Double> result = ScopeInside.diapason(9, 13, x -> Math.pow(2, x));
-        List<Double> expected = Arrays.asList(512D, 1024D, 2048D, 4096D);
+        List<Double> result = ScopeInside.diapason(9, 12, x -> Math.pow(2, x));
+        List<Double> expected = Arrays.asList(512D, 1024D, 2048D);
         assertThat(result, is(expected));
     }
 }
