@@ -1,5 +1,8 @@
 package lambda;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ScopeInside {
@@ -19,4 +22,14 @@ public class ScopeInside {
     private static Integer add(Supplier<Integer> calc) {
         return calc.get();
     }
+
+    public static List<Double> diapason(int start, int end, Function<Double, Double> func) {
+
+        List<Double> diapasonList = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            diapasonList.add(func.apply((double) i));
+        }
+        return diapasonList;
+    };
+
 }
