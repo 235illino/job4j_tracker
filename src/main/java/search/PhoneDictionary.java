@@ -13,24 +13,24 @@ public class PhoneDictionary {
     /**
      * Вернуть список всех пользователей, который содержат key в любых полях.
      *
-     * @param key Ключ поиска.
+     * @param
      * @return Список подощедщих пользователей.
      */
 
     public ArrayList<Person> find(String key) {
-        Predicate<Person> combine = new Predicate<Person>() {
-            @Override
-            public boolean test(Person person) {
-                return (person.getAddress().contains(key) || person.getName().contains(key) || person.getPhone().contains(key) || person.getSurname().contains(key));
-            }
-        };
+        Predicate<Person> predicateAdress = person -> person.getAddress().contains(key);
+        Predicate<Person> predicateName = person -> person.getName().contains(key);
+        Predicate<Person> predicatePhone = person -> person.getPhone().contains(key);
+        Predicate<Person> predicateSurname = person -> person.getSurname().contains(key);
+        Predicate<Person> predicateCombine = predicateAdress.or(predicateName).or(predicatePhone).or(predicateSurname);
         ArrayList<Person> result = new ArrayList<>();
         for (Person person : persons) {
-            if (combine.test(person)) {
+            if (predicateCombine.test(person)) {
                 result.add(person);
             }
         }
         return result;
     }
+
 
 }
