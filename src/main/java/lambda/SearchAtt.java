@@ -7,28 +7,23 @@ import java.util.function.UnaryOperator;
 
 public class SearchAtt {
 
-    public static List<Attachment> filterSize(List<Attachment> list, Predicate<Attachment> predicate) {
-        List<Attachment> rsl = new ArrayList<>();
-        for (Attachment att : list) {
-            if (predicate.test(att)) {
-                rsl.add(att);
-            }
-        }
-        return rsl;
-    }
-
-    public static List<Attachment> filterName(List<Attachment> list, Predicate<Attachment> predicate) {
-        List<Attachment> rsl = new ArrayList<>();
-        for (Attachment att : list) {
-            if (predicate.test(att)) {
-                rsl.add(att);
-            }
-        }
-        return rsl;
-    }
-
-    public static Predicate<Attachment> filter(Attachment att) {
-        Predicate<Attachment> predicate = attachment -> (att.getName().contains("bug") || att.getSize() > 100);
+    public static Predicate<Attachment> filterSize(Attachment attachment) {
+        Predicate<Attachment> predicate = attachment1 -> attachment.getSize() > 100;
         return predicate;
+    }
+
+    public static Predicate<Attachment> filterName(Attachment attachment) {
+        Predicate<Attachment> predicate = attachment1 -> attachment.getName().contains("bug");
+        return predicate;
+    }
+
+    public static List<Attachment> filter(List<Attachment> list, Predicate<Attachment> predicate) {
+        List<Attachment> rsl = new ArrayList<>();
+        for (Attachment att : list) {
+            if (predicate.test(att)) {
+                rsl.add(att);
+            }
+        }
+        return rsl;
     }
 }
