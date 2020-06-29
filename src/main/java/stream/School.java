@@ -13,12 +13,12 @@ public class School {
     }
 
     public static Predicate<Student> filterA() {
-        Predicate<Student> predicate = student1 -> student1.getScore() > 70 && student1.getScore() < 100;
+        Predicate<Student> predicate = student1 -> student1.getScore() >= 70 && student1.getScore() <= 100;
         return predicate;
     }
 
     public static Predicate<Student> filterB() {
-        Predicate<Student> predicate = student1 -> student1.getScore() > 50 && student1.getScore() < 70;
+        Predicate<Student> predicate = student1 -> student1.getScore() >= 50 && student1.getScore() < 70;
         return predicate;
     }
 
