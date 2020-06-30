@@ -1,6 +1,7 @@
 package stream;
 
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Student {
 
@@ -36,6 +37,31 @@ public class Student {
     @Override
     public int hashCode() {
         return Objects.hash(score, surname);
+    }
+
+    public static void main(String[] args) {
+        List<Student> students = Arrays.asList(
+                new Student("Aaaa", 99),
+                new Student("Bbbb", 51),
+                new Student("Cccc", 48),
+                new Student("Ffff", 66),
+                new Student("Gggg", 33),
+                new Student("Kkkk", 77)
+        );
+        Map<String, Student> studentMap = students.stream().distinct().collect(Collectors.toMap(
+                Student::getSurname,
+                value -> value
+        ));
+
+        Collection<Student> st = studentMap.values();
+
+        for (Student stu : st) {
+            System.out.println(stu.score);
+        }
+
+        for (Map.Entry<String, Student> item : studentMap.entrySet()) {
+            System.out.println(item.getKey() + " " + item.getValue().getScore());
+        }
     }
 
 }
