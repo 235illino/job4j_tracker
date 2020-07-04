@@ -1,12 +1,13 @@
 package bank;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BankService {
     private Map<User, List<Account>> users = new HashMap<>();
 
     public void addUser(User user) {
-        users.putIfAbsent(user, new ArrayList<Account>());
+        users.putIfAbsent(user, new ArrayList<>());
     }
 
     public void addAccount(String passport, Account account) {
@@ -21,30 +22,17 @@ public class BankService {
     }
 
     public User findByPassport(String passport) {
-        User userFind = null;
-        for (User user : users.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                userFind = user;
-                break;
-            }
-        }
-        return userFind;
+        return users.keySet().stream().filter(user -> user.getPassport().equals(passport)).findFirst().get();
     }
 
     public Account findByRequisite(String passport, String requisite) throws NullPointerException {
-        Account accountFind = null;
         List<Account> accounts = new ArrayList<>();
         User user = findByPassport(passport);
         if (!Objects.isNull(user)) {
             accounts = users.get(user);
         }
-        for (Account account : accounts) {
-            if (account.getRequisite().equals(requisite)) {
-                accountFind = account;
-                break;
-            }
-        }
-        return accountFind;
+        return accounts.stream().filter(account -> account.getRequisite().equals(requisite)).findFirst().get();
+
     }
 
     public boolean transferMoney(String srcPassport, String srcRequisite,
