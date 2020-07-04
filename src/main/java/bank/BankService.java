@@ -22,16 +22,16 @@ public class BankService {
     }
 
     public User findByPassport(String passport) {
-        return users.keySet().stream().filter(user -> user.getPassport().equals(passport)).findFirst().get();
+        return users.keySet().stream().filter(user -> user.getPassport().equals(passport)).findFirst().orElse(null);
     }
 
-    public Account findByRequisite(String passport, String requisite) throws NullPointerException {
+    public Account findByRequisite(String passport, String requisite) {
         List<Account> accounts = new ArrayList<>();
         User user = findByPassport(passport);
         if (!Objects.isNull(user)) {
             accounts = users.get(user);
         }
-        return accounts.stream().filter(account -> account.getRequisite().equals(requisite)).findFirst().get();
+        return accounts.stream().filter(account -> account.getRequisite().equals(requisite)).findFirst().orElse(null);
 
     }
 
