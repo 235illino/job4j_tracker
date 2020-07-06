@@ -12,7 +12,7 @@ public class MatrixToListTest {
     @Test
     public void name() {
         Integer[][] integers = {{5,7,3,17}, {7,0,1,12}, {8,1,2,3}};
-        List<Integer> exp = Arrays.asList(
+        List<Integer> exp = List.of(
                 5, 7, 3, 17, 7, 0, 1, 12, 8, 1, 2, 3
         );
         List<Integer> rsl = MatrixToList.matrixTo(integers);

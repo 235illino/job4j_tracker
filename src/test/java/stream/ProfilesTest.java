@@ -12,14 +12,14 @@ public class ProfilesTest {
 
     @Test
     public void collectTest() {
-        List<Profile> addressList = Arrays.asList(
+        List<Profile> addressList = List.of(
                 new Profile(new Address("Kyiv", "Khreshatyk", 8, 7)),
                 new Profile(new Address("New York", "First street", 9, 8)),
                 new Profile(new Address("New York", "First street", 9, 8)),
                 new Profile(new Address("New York", "Second street", 7, 9)),
                 new Profile(new Address("London", "Third street", 7, 9))
         );
-        List<Address> addressListExp = Arrays.asList(
+        List<Address> addressListExp = List.of(
                 new Address("Kyiv", "Khreshatyk", 8, 7),
                 new Address("London", "Third street", 7, 9),
                 new Address("New York", "First street", 9, 8),

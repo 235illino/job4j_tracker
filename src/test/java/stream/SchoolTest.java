@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class SchoolTest {
     @Test
     public void classA() {
-        List<Student> students = Arrays.asList(
+        List<Student> students = List.of(
                 new Student("Aaaa", 99),
                 new Student("Bbbb", 51),
                 new Student("Cccc", 48),
@@ -19,7 +19,7 @@ public class SchoolTest {
                 new Student("Cccc", 33),
                 new Student("Cccc", 77)
         );
-        List<Student> expA = Arrays.asList(
+        List<Student> expA = List.of(
                 new Student("Aaaa", 99),
                 new Student("Cccc", 77)
         );
@@ -29,7 +29,7 @@ public class SchoolTest {
 
     @Test
     public void classB() {
-        List<Student> students = Arrays.asList(
+        List<Student> students = List.of(
                 new Student("Aaaa", 99),
                 new Student("Bbbb", 51),
                 new Student("Cccc", 48),
@@ -37,7 +37,7 @@ public class SchoolTest {
                 new Student("Cccc", 33),
                 new Student("Cccc", 77)
         );
-        List<Student> expB = Arrays.asList(
+        List<Student> expB = List.of(
                 new Student("Bbbb", 51),
                 new Student("Cccc", 66)
         );
@@ -47,7 +47,7 @@ public class SchoolTest {
 
     @Test
     public void classC() {
-        List<Student> students = Arrays.asList(
+        List<Student> students = List.of(
                 new Student("Aaaa", 99),
                 new Student("Bbbb", 51),
                 new Student("Cccc", 48),
@@ -55,7 +55,7 @@ public class SchoolTest {
                 new Student("Cccc", 33),
                 new Student("Cccc", 77)
         );
-        List<Student> expC = Arrays.asList(
+        List<Student> expC = List.of(
                 new Student("Cccc", 48),
                 new Student("Cccc", 33)
         );
