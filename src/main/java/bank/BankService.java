@@ -1,7 +1,6 @@
 package bank;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BankService {
     private Map<User, List<Account>> users = new HashMap<>();
@@ -12,24 +11,31 @@ public class BankService {
 
     public void addAccount(String passport, Account account) {
         List<Account> accounts = new ArrayList<>();
-        User user = findByPassport(passport);
-        if (!Objects.isNull(user)) {
-            accounts = users.get(user);
+        Optional<User> user = findByPassport(passport);
+        if (user.isPresent()) {
+            accounts = users.get(user.get());
         }
         if (!accounts.contains(account)) {
             accounts.add(account);
         }
     }
 
-    public User findByPassport(String passport) {
-        return users.keySet().stream().filter(user -> user.getPassport().equals(passport)).findFirst().orElse(null);
+    public Optional<User> findByPassport(String passport) {
+        Optional<User> rsl = Optional.empty();
+        for (User user : users.keySet()) {
+            if (user.getPassport().equals(passport)) {
+                rsl = Optional.of(user);
+                break;
+            }
+        }
+        return rsl;
     }
 
     public Account findByRequisite(String passport, String requisite) {
         List<Account> accounts = new ArrayList<>();
-        User user = findByPassport(passport);
-        if (!Objects.isNull(user)) {
-            accounts = users.get(user);
+        Optional<User> user = findByPassport(passport);
+        if (user.isPresent()) {
+            accounts = users.get(user.get());
         }
         return accounts.stream().filter(account -> account.getRequisite().equals(requisite)).findFirst().orElse(null);
     }
