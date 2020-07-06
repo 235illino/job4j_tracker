@@ -14,6 +14,8 @@ public class BankService {
         Optional<User> user = findByPassport(passport);
         if (user.isPresent()) {
             accounts = users.get(user.get());
+        } else {
+            System.out.println("User not found");
         }
         if (!accounts.contains(account)) {
             accounts.add(account);
@@ -36,19 +38,20 @@ public class BankService {
         Optional<User> user = findByPassport(passport);
         if (user.isPresent()) {
             accounts = users.get(user.get());
+        }  else {
+            System.out.println("User not found");
         }
         return accounts.stream().filter(account -> account.getRequisite().equals(requisite)).findFirst().orElse(null);
     }
 
     public boolean transferMoney(String srcPassport, String srcRequisite,
                                  String destPassport, String destRequisite, double amount) {
-        Account accountSrc = findByRequisite(srcPassport, srcRequisite);
-        Account accountDest = findByRequisite(destPassport, destRequisite);
+        Optional<Account> accountSrc = Optional.of(findByRequisite(srcPassport, srcRequisite));
+        Optional<Account> accountDest = Optional.of(findByRequisite(destPassport, destRequisite));
         boolean rsl = false;
-        if (!(Objects.isNull(accountSrc) || Objects.isNull(accountDest)
-                || accountSrc.getBalance() < amount)) {
-            accountSrc.setBalance(accountSrc.getBalance() - amount);
-            accountDest.setBalance(accountDest.getBalance() + amount);
+        if (accountSrc.get().getBalance() < amount) {
+            accountSrc.get().setBalance(accountSrc.get().getBalance() - amount);
+            accountDest.get().setBalance(accountDest.get().getBalance() + amount);
             rsl = true;
         }
         return rsl;
