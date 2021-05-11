@@ -34,7 +34,7 @@ public class SqlTracker implements Store {
     @Override
     public Item add(Item item) {
         String query = "insert into items(name) values (?)";
-        try (PreparedStatement pst = cn.prepareStatement(query)) {
+        try (PreparedStatement pst = cn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             pst.setString(1, item.getName());
             ResultSet resultSet = pst.executeQuery();
             while (resultSet.next()) {
