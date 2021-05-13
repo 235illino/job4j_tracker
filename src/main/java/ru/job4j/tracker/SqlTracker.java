@@ -37,7 +37,7 @@ public class SqlTracker implements Store {
         try (PreparedStatement pst = cn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             pst.setString(1, item.getName());
             ResultSet resultSet = pst.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 item.setId(String.valueOf(resultSet.getInt("Id")));
             }
         } catch (SQLException throwables) {
@@ -80,7 +80,7 @@ public class SqlTracker implements Store {
         String query = "select * from items";
         try (PreparedStatement statement = cn.prepareStatement(query)) {
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     Item item = new Item(resultSet.getString("name"));
                     item.setId(String.valueOf(resultSet.getInt("id")));
                     items.add(item);
@@ -99,7 +99,7 @@ public class SqlTracker implements Store {
         try (PreparedStatement statement = cn.prepareStatement(query)) {
             statement.setString(1, key);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     Item item = new Item(resultSet.getString("name"));
                     item.setId(String.valueOf(resultSet.getInt("id")));
                     items.add(item);
@@ -118,7 +118,7 @@ public class SqlTracker implements Store {
         try (PreparedStatement statement = cn.prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     item = new Item(resultSet.getString("name"));
                     item.setId(String.valueOf(resultSet.getInt("id")));
                 }
