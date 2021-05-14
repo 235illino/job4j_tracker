@@ -1,4 +1,4 @@
-package stream;
+/*package stream;
 
 import org.junit.Test;
 
@@ -31,4 +31,4 @@ public class Student2Test {
         assertThat(exp, is(rsl));
     }
 
-}
+}*/
