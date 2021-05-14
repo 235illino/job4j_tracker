@@ -80,7 +80,7 @@ public class SqlTracker implements Store {
         String query = "select * from items";
         try (PreparedStatement statement = cn.prepareStatement(query)) {
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     Item item = new Item(resultSet.getString("name"));
                     item.setId(String.valueOf(resultSet.getInt("id")));
                     items.add(item);
@@ -99,7 +99,7 @@ public class SqlTracker implements Store {
         try (PreparedStatement statement = cn.prepareStatement(query)) {
             statement.setString(1, key);
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     Item item = new Item(resultSet.getString("name"));
                     item.setId(String.valueOf(resultSet.getInt("id")));
                     items.add(item);
