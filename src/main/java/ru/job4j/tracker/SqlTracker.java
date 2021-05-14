@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class SqlTracker implements Store {
+public class SqlTracker implements Store, AutoCloseable {
     private Connection cn;
+
+    public SqlTracker(Connection cn) {
+        this.cn = cn;
+    }
 
     public void init() {
         try (InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("app.properties")) {
@@ -34,16 +38,18 @@ public class SqlTracker implements Store {
     @Override
     public Item add(Item item) {
         String query = "insert into items(name) values (?)";
-        try (PreparedStatement pst = cn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            pst.setString(1, item.getName());
-            ResultSet resultSet = pst.executeQuery();
-            if (resultSet.next()) {
-                item.setId(String.valueOf(resultSet.getInt("Id")));
+        try (PreparedStatement statement = cn.prepareStatement(query,
+                Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, item.getName());
+            statement.execute();
+            try (ResultSet generatedKey = statement.getGeneratedKeys()) {
+                if (generatedKey.next()) {
+                    item.setId(generatedKey.getInt(1));
+                }
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return item;
     }
 
@@ -82,7 +88,7 @@ public class SqlTracker implements Store {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Item item = new Item(resultSet.getString("name"));
-                    item.setId(String.valueOf(resultSet.getInt("id")));
+                    item.setId(resultSet.getInt("id"));
                     items.add(item);
                 }
             }
@@ -101,7 +107,7 @@ public class SqlTracker implements Store {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Item item = new Item(resultSet.getString("name"));
-                    item.setId(String.valueOf(resultSet.getInt("id")));
+                    item.setId(resultSet.getInt("id"));
                     items.add(item);
                 }
             }
@@ -120,7 +126,7 @@ public class SqlTracker implements Store {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     item = new Item(resultSet.getString("name"));
-                    item.setId(String.valueOf(resultSet.getInt("id")));
+                    item.setId(resultSet.getInt("id"));
                 }
             }
         } catch (Exception e) {
@@ -129,20 +135,7 @@ public class SqlTracker implements Store {
         return item;
     }
 
-    public static void main(String[] args) {
-        Input validate = new ValidateInput(
-                new ConsoleOutput(), new ConsoleInput()
-        );
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
-            UserAction[] actions = {
-                    new CreateAction(new ConsoleOutput())
-            };
-            new StartUI(new ConsoleOutput()).init(validate, tracker, actions);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
 
 }
