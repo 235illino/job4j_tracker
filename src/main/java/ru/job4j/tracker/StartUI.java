@@ -26,7 +26,7 @@ public class StartUI {
     }
 
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
         Store tracker = new SqlTracker();
@@ -41,6 +41,8 @@ public class StartUI {
         };
         new StartUI(output).init(input, tracker, actions);
     }
+
+    */
 
 }
 

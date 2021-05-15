@@ -1,23 +1,41 @@
 package ru.job4j.tracker;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.Objects;
 
-public class Item implements Comparable<Item> {
+/**
+ * class Item - модель данных заявки.
+ *
+ * @author Sergey Frolov (slevkelebr@yandex.ru)
+ * @version 0.2
+ * @since 03.04.2020
+ */
 
-    private String id;
+public class Item {
+
+    private Integer id;
     private String name;
+    private String description;
+    private Timestamp created;
+
+    public Item(String name, String description, Timestamp created) {
+        this.name = name;
+        this.description = description;
+        this.created = created;
+    }
 
     public Item(String name) {
         this.name = name;
     }
 
-    public String getId() {
+    public Item() {
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -30,8 +48,27 @@ public class Item implements Comparable<Item> {
     }
 
     @Override
-    public int compareTo(Item item) {
-        return name.compareTo(item.getName());
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Item item = (Item) o;
+        return Objects.equals(id, item.id) && Objects.equals(name, item.name);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Item{"
+                + "id='" + id + '\''
+                + ", name='" + name + '\''
+                + '}';
+    }
 }

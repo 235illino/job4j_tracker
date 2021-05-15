@@ -1,97 +1,120 @@
 package ru.job4j.tracker;
 
+
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * class Tracker - обёртка над массивом Item.
+ *
+ * @author Sergey Frolov (slevkelebr@yandex.ru)
+ * @version 0.2
+ * @since 03.04.2020
+ */
 public class MemTracker {
-
     /**
      * Массив для хранения заявок.
      */
-    private final List<Item> items = new ArrayList<>();
-
-    /**
-     * Указатель ячейки для новой заявки.
-     */
-//    private int position = 0;
+    private final List<Item> items = new ArrayList<>(100);
 
     /**
      * Метод добавления заявки в хранилище
-     *
      * @param item новая заявка
      */
-    public void add(Item item) {
+    public Item add(Item item) {
         item.setId(generateId());
         items.add(item);
-//        return item;
+        return item;
     }
 
     /**
      * Метод генерирует уникальный ключ для заявки.
      * Так как у заявки нет уникальности полей, имени и описание. Для идентификации нам нужен уникальный ключ.
-     *
      * @return Уникальный ключ.
      */
-    private String generateId() {
+    private Integer generateId() {
         Random rm = new Random();
-        return String.valueOf(rm.nextLong() + System.currentTimeMillis());
+        return rm.nextInt();
     }
 
+    /**
+     * Метод получения списка всех заявок.
+     * @return массив всех заявок.
+     */
     public List<Item> findAll() {
-        return this.items;
+        return items;
     }
 
+    /**
+     * Метод получения всех заявок совпадающих с ключом.
+     * @param key имя заявки.
+     * @return список заявок.
+     */
     public List<Item> findByName(String key) {
-        List<Item> itemsFind = new ArrayList<>();
-        int size = 0;
+        List<Item> result = new ArrayList<>();
         for (Item item : items) {
             if (key.equals(item.getName())) {
-                itemsFind.add(item);
+                result.add(item);
             }
         }
-        return itemsFind;
+        return result;
     }
 
-    public Item findById(String id) {
-        // Находим индекс
+    /**
+     * Метод ищет заявку по id.
+     * @param id id заявки.
+     * @return заявка.
+     */
+    public Item findById(Integer id) {
         int index = indexOf(id);
-        // Если индекс найден возвращаем item, иначе null
         return index != -1 ? items.get(index) : null;
     }
 
-    private int indexOf(String id) {
-        int rsl = -1;
+    /**
+     * Метод возвращает индекс заявки по id.
+     * @param id id заявки.
+     * @return индекс заявки.
+     */
+    public int indexOf(Integer id) {
+        int index = -1;
         for (int i = 0; i < items.size(); i++) {
-            if (id.equals(items.get(i).getId())) {
-                rsl = i;
+            if (items.get(i).getId().equals(id)) {
+                index = i;
                 break;
             }
         }
-        return rsl;
+        return index;
     }
 
-    public boolean replace(String id, Item item) {
+    /**
+     * Метод замены заявки по id.
+     * @param id id заявки.
+     * @param item новая заявка.
+     * @return true если замена прошла успешна иначе false.
+     */
+    public boolean replace(Integer id, Item item) {
         int index = indexOf(id);
-        boolean rp = index == -1;
-        if (!rp) {
-            item.setId(id);
-            items.set(index, item);
-//            items.add(index, item);
-//            items.remove(index + 1);
+        if (index == -1) {
+            return false;
         }
-        return rp;
+        item.setId(id);
+        items.set(index, item);
+        return true;
     }
 
-    public boolean delete(String id) {
+    /**
+     * метод удаления заявки.
+     * @param id id заявки.
+     * @return true если замена прошла успешна иначе false.
+     */
+    public boolean delete(Integer id) {
         int index = indexOf(id);
-        boolean rp = index == -1;
-        if (!rp) {
-            items.remove(index);
+        if (index == -1) {
+            return false;
         }
-        return rp;
+        items.remove(index);
+        return true;
     }
-
-
 }
