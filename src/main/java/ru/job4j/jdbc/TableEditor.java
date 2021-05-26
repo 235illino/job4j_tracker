@@ -1,7 +1,5 @@
 package ru.job4j.jdbc;
 
-import ru.job4j.tracker.SqlTracker;
-
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
@@ -12,12 +10,12 @@ public class TableEditor implements AutoCloseable {
 
     private Properties properties;
 
-    public TableEditor(Properties properties) throws SQLException, ClassNotFoundException {
+    public TableEditor(Properties properties) {
         this.properties = properties;
         initConnection();
     }
 
-    private void initConnection() throws ClassNotFoundException, SQLException {
+    private void initConnection() {
         try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
             Properties config = new Properties();
             config.load(in);
@@ -32,54 +30,37 @@ public class TableEditor implements AutoCloseable {
         }
     }
 
-    public void createTable(String tableName) {
-
+    public void execute(String inquiry) {
         try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "create table if not exists " + tableName + "(%s, %s);",
-                    "id serial primary key",
-                    "name varchar(255)"
-            );
-            statement.execute(sql);
+            statement.execute(inquiry);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public void createTable(String tableName) {
+
+        execute(String.format(
+                "create table if not exists " + tableName + "(%s, %s);",
+                "id serial primary key",
+                "name varchar(255)"
+        ));
     }
 
     public void dropTable(String tableName) {
-        try (Statement statement = connection.createStatement()) {
-            String sql = "drop table if exists " + tableName;
-            statement.execute(sql);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        execute("drop table if exists " + tableName);
     }
 
     public void addColumn(String tableName, String columnName, String type) {
-        try (Statement statement = connection.createStatement()) {
-            String sql = "alter table " + tableName + " add " + columnName + " " + type;
-            statement.execute(sql);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        execute("alter table " + tableName + " add " + columnName + " " + type);
     }
 
     public void dropColumn(String tableName, String columnName) {
-        try (Statement statement = connection.createStatement()) {
-            String sql = "alter table " + tableName + " drop " + columnName;
-            statement.execute(sql);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        execute("alter table " + tableName + " drop " + columnName);
     }
 
     public void renameColumn(String tableName, String columnName, String newColumnName) {
-        try (Statement statement = connection.createStatement()) {
-            String sql = "alter table " + tableName + " change " + columnName + " " + newColumnName;
-            statement.execute(sql);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        execute("alter table " + tableName + " rename " + columnName + " " + newColumnName);
     }
 
     public String getScheme(String tableName) throws SQLException {
